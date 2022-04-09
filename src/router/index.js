@@ -36,11 +36,12 @@ const routes = [
     component: SurveyData,
     props: true,
   },
-  // {
-  //   path: "/surveyarea",
-  //   name: "SurveyArea",
-  //   component: SurveyArea,
-  // },
+  {
+    path: "/jobs/:jobId/surveydata/:areaId/surveyarea",
+    name: "SurveyArea",
+    component: SurveyArea,
+    props: true,
+  },
   // {
   //   path: "/newitem",
   //   name: "NewItem",

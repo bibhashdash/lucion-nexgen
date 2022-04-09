@@ -6,9 +6,17 @@
     }"
     >Back to Job Dashboard</router-link
   >
-  <h1>This is the survey data for job {{ jobId }}</h1>
-  <div class="" v-for="(data, roomId) in surveyData" :key="data">
-    <h2>{{ roomId }}</h2>
+  <h1>{{ jobId }}</h1>
+  <div class="" v-for="(data, areaId) in surveyData" :key="data">
+    <router-link
+      :to="{
+        name: 'SurveyArea',
+        params: { areaId: `${areaId}` },
+      }"
+      :jobId="jobId"
+      :areaId="areaId"
+      ><h2>{{ areaId }}/{{ data.areaName }}</h2></router-link
+    >
   </div>
 </template>
 
@@ -23,7 +31,7 @@ export default {
     const surveyData = ref(null);
     const showSurveyData = async () => {
       const response = await getDoc(doc(db, "surveyorBD", `${props.jobId}`));
-      // console.log(response.data());
+
       surveyData.value = response.data().surveyData;
     };
     showSurveyData();
