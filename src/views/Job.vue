@@ -1,4 +1,5 @@
 <template>
+  <router-link to="/">Back to Home</router-link>
   <h1>Welcome to job {{ jobId }}</h1>
   <router-link
     :to="{
@@ -16,8 +17,6 @@
     :jobId="jobId"
     >Show survey Data</router-link
   >
-
-  <router-link to="/">Back to Home</router-link>
 </template>
 
 <script>

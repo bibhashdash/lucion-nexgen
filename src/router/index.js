@@ -6,6 +6,7 @@ import Job from "../views/Job.vue";
 import NewJob from "../views/NewJob.vue";
 import JobInfo from "../views/JobInfo.vue";
 import SurveyData from "../views/SurveyData.vue";
+import Floor from "../views/Floor.vue";
 
 const routes = [
   {
@@ -37,9 +38,15 @@ const routes = [
     props: true,
   },
   {
-    path: "/jobs/:jobId/surveydata/:areaId/surveyarea",
+    path: "/jobs/:jobId/surveydata/:floorId/:areaId",
     name: "SurveyArea",
     component: SurveyArea,
+    props: true,
+  },
+  {
+    path: "/jobs/:jobId/surveydata/:floorId",
+    name: "Floor",
+    component: Floor,
     props: true,
   },
   // {

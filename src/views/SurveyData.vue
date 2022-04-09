@@ -7,15 +7,14 @@
     >Back to Job Dashboard</router-link
   >
   <h1>{{ jobId }}</h1>
-  <div class="" v-for="(data, areaId) in surveyData" :key="data">
+  <div class="" v-for="(data, floorId) in surveyData" :key="data">
     <router-link
       :to="{
-        name: 'SurveyArea',
-        params: { areaId: `${areaId}` },
+        name: 'Floor',
+        params: { floorId: `${floorId}` },
+        props: ['jobId', 'floorId'],
       }"
-      :jobId="jobId"
-      :areaId="areaId"
-      ><h2>{{ areaId }}/{{ data.areaName }}</h2></router-link
+      ><h2>View data for Floor {{ floorId }}</h2></router-link
     >
   </div>
 </template>

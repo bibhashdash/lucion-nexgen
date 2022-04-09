@@ -1,14 +1,16 @@
 <template>
   <router-link
     :to="{
-      name: 'SurveyData',
-      params: { jobId: `${jobId}` },
+      name: 'Floor',
+      params: { floorId: `${floorId}` },
     }"
-    >Back to Job</router-link
+    >Back to Floor</router-link
   >
-  <h1>{{ areaName }}</h1>
-  <ul v-for="(material, item) in areaData" :key="material">
-    <li v-if="material != `${areaName}`">{{ item }}: {{ material }}</li>
+
+  <h1>{{ areaData.areaInfo.areaName }}</h1>
+  <h2>Items</h2>
+  <ul v-for="(i, j) in areaData" :key="i">
+    <li>{{ j }}:{{ i.material }}</li>
   </ul>
 </template>
 
@@ -18,21 +20,17 @@ import { db } from "../firebase/config";
 import { useRouter } from "vue-router";
 import { doc, getDoc } from "firebase/firestore";
 export default {
-  props: ["jobId", "areaId"],
+  props: ["jobId", "areaId", "floorData", "floorId"],
   setup(props) {
     const areaData = ref(null);
-    const areaName = ref(null);
     const showAreaData = async () => {
       const response = await getDoc(doc(db, "surveyorBD", `${props.jobId}`));
-
-      areaData.value = response.data().surveyData[`${props.areaId}`];
-      areaName.value = response.data().surveyData[`${props.areaId}`].areaName;
+      areaData.value =
+        response.data().surveyData[`${props.floorId}`][`${props.areaId}`];
     };
     showAreaData();
-
     return {
       areaData,
-      areaName,
     };
   },
 };
