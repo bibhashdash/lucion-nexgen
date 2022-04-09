@@ -3,11 +3,11 @@
   <form @submit.prevent="createNewJob">
     <div class="form-slot">
       <label>Job Number</label>
-      <input v-model="jobNumber" type="number" name="" id="" />
+      <input v-model="jobNumber" type="number" name="" id="" required />
     </div>
     <div class="form-slot">
       <label>Site Name</label>
-      <input v-model="siteName" type="text" name="" id="" />
+      <input v-model="siteName" type="text" name="" id="" required />
     </div>
     <!-- <div class="form-slot">
       <label>Start Date</label>
@@ -19,6 +19,7 @@
     </div> -->
     <button type="submit">Create Job</button>
   </form>
+  <router-link to="/">Back to Home</router-link>
 </template>
 
 <script>

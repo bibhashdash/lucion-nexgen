@@ -35,11 +35,14 @@ export default {
     const searchForJob = async () => {
       const docRef = doc(db, "surveyorBD", `${jobSearchQuery.value}`);
       const docSnap = await getDoc(docRef);
+
       if (docSnap.exists()) {
         router.push({
           name: "Job",
           params: { jobId: `${jobSearchQuery.value}` },
         });
+      } else {
+        console.log("Job not found");
       }
     };
     return { jobSearchQuery, searchForJob };
