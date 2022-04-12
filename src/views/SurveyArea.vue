@@ -7,11 +7,13 @@
     >Back to Floor</router-link
   >
 
-  <h1>{{ areaData.areaInfo.areaName }}</h1>
+  <h1 v-if="areaData">{{ areaData.areaInfo.areaName }}</h1>
   <h2>Items</h2>
-  <ul v-for="(i, j) in areaData" :key="i">
-    <li>{{ j }}:{{ i.material }}</li>
-  </ul>
+  <div class="" v-if="areaData">
+    <ul v-for="(i, j) in areaData.areaItems" :key="i">
+      <li>{{ j }}:{{ i.material }}</li>
+    </ul>
+  </div>
 </template>
 
 <script>

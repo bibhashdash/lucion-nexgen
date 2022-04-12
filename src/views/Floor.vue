@@ -28,22 +28,21 @@ import { db } from "../firebase/config";
 import { useRouter } from "vue-router";
 import { doc, getDoc } from "firebase/firestore";
 export default {
-  props: ["jobId", "floorId"],
-  setup(props) {
-    const floorData = ref(null);
+  props: ["jobId", "floorId", "data"],
+  // setup(props) {
+  //   const floorData = ref(null);
 
-    const showFloorData = async () => {
-      const response = await getDoc(doc(db, "surveyorBD", `${props.jobId}`));
+  //   const showFloorData = async () => {
+  //     const response = await getDoc(doc(db, "surveyorBD", `${props.jobId}`));
 
-      floorData.value = response.data().surveyData[`${props.floorId}`];
-      console.log(floorData.value);
-    };
-    showFloorData();
+  //     floorData.value = response.data().surveyData[`${props.floorId}`];
+  //   };
+  //   showFloorData();
 
-    return {
-      floorData,
-    };
-  },
+  //   return {
+  //     floorData,
+  //   };
+  // },
 };
 </script>
 

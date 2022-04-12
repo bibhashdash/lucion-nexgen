@@ -7,15 +7,26 @@
     >Back to Job Dashboard</router-link
   >
   <h1>{{ jobId }}</h1>
-  <div class="" v-for="(data, floorId) in surveyData" :key="data">
-    <router-link
-      :to="{
-        name: 'Floor',
-        params: { floorId: `${floorId}` },
-        props: ['jobId', 'floorId'],
-      }"
-      ><h2>View data for Floor {{ floorId }}</h2></router-link
-    >
+  <router-link
+    :to="{
+      name: 'NewFloor',
+      params: { jobId: `${jobId}` },
+    }"
+    :jobId="jobId"
+    :floorId="floorId"
+    ><p>Add a new floor</p></router-link
+  >
+  <div v-if="surveyData" class="">
+    <div class="" v-for="data in surveyData" :key="data">
+      <router-link
+        :to="{
+          name: 'Floor',
+          params: { floorId: `${data.floorId}` },
+          props: ['jobId', 'data.floorId', 'data'],
+        }"
+        ><h2>View data for Floor {{ data.floorId }}</h2></router-link
+      >
+    </div>
   </div>
 </template>
 
@@ -23,15 +34,23 @@
 import { ref } from "@vue/reactivity";
 import { db } from "../firebase/config";
 import { useRouter } from "vue-router";
-import { doc, getDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 export default {
-  props: ["jobId"],
+  props: ["jobId", "floorId"],
   setup(props) {
-    const surveyData = ref(null);
+    const surveyData = ref([]);
     const showSurveyData = async () => {
-      const response = await getDoc(doc(db, "surveyorBD", `${props.jobId}`));
+      const collRef = collection(
+        db,
+        "surveyorBD",
+        `${props.jobId}`,
+        "surveyData"
+      );
+      const docsSnap = await getDocs(collRef);
 
-      surveyData.value = response.data().surveyData;
+      docsSnap.forEach((doc) => {
+        surveyData.value.push(doc.data());
+      });
     };
     showSurveyData();
 
