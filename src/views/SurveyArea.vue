@@ -6,32 +6,51 @@
     }"
     >Back to Floor</router-link
   >
-
-  <h1 v-if="areaData">{{ areaData.areaInfo.areaName }}</h1>
-  <h2>Items</h2>
-  <div class="" v-if="areaData">
-    <ul v-for="(i, j) in areaData.areaItems" :key="i">
-      <li>{{ j }}:{{ i.material }}</li>
-    </ul>
-  </div>
+  <h1>{{ floorId }}/{{ areaId }}</h1>
+  <ul v-for="ad in areaData" :key="ad">
+    <li>{{ ad }}</li>
+  </ul>
 </template>
 
 <script>
 import { ref } from "@vue/reactivity";
 import { db } from "../firebase/config";
 import { useRouter } from "vue-router";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, collection, getDocs } from "firebase/firestore";
 export default {
-  props: ["jobId", "areaId", "floorData", "floorId"],
+  props: ["jobId", "areaId", "floorId", "floorData"],
   setup(props) {
-    const areaData = ref(null);
+    const areaData = ref([]);
     const showAreaData = async () => {
-      const response = await getDoc(doc(db, "surveyorBD", `${props.jobId}`));
-      areaData.value =
-        response.data().surveyData[`${props.floorId}`][`${props.areaId}`];
+      const areasCollRef = collection(
+        db,
+        "surveyorBD",
+        `${props.jobId}`,
+        "surveyData",
+        `floor-${props.floorId}`,
+        "areas"
+      );
+
+      const areasDocsSnap = await getDocs(areasCollRef);
+      areasDocsSnap.forEach((areasDoc) => {
+        if (areasDoc.data().areaInfo.areaId === `${props.areaId}`) {
+          console.log(areasDoc.data().areaInfo.areaId, areasDoc.id);
+
+          const tempCollRef = collection(
+            areasCollRef,
+            `${areasDoc.id}`,
+            "items"
+          );
+          console.log(tempCollRef);
+
+          const tempDocsSnap = getDocs(tempCollRef);
+          console.log(Object.values(tempDocsSnap));
+        }
+      });
     };
     showAreaData();
     return {
+      showAreaData,
       areaData,
     };
   },

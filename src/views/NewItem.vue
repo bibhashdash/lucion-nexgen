@@ -1,6 +1,6 @@
 <template>
   <h1>Add a new item</h1>
-  <router-link to="/surveyarea">Back to survey area</router-link>
+
   <div class="new-item-form">
     <form @submit.prevent="addData" action="">
       <div class="form-slot">

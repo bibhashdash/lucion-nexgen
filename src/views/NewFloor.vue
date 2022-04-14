@@ -36,7 +36,9 @@ export default {
 
       const docRef = doc(collRef, `floor-${newFloorSubmission.value}`);
 
-      await setDoc(docRef, {});
+      await setDoc(docRef, {
+        floorId: `${newFloorSubmission.value}`,
+      });
       router.push({
         name: "SurveyData",
         params: { jobId: props.jobId },
