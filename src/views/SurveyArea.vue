@@ -7,9 +7,11 @@
     >Back to Floor</router-link
   >
   <h1>{{ floorId }}/{{ areaId }}</h1>
-  <ul v-for="ad in areaData" :key="ad">
-    <li>{{ ad }}</li>
-  </ul>
+  <div class="" v-if="areaData">
+    <ul v-for="ad in areaData" :key="ad">
+      <li>{{ ad.item }} - {{ ad.material }}</li>
+    </ul>
+  </div>
 </template>
 
 <script>
@@ -32,7 +34,7 @@ export default {
       );
 
       const areasDocsSnap = await getDocs(areasCollRef);
-      areasDocsSnap.forEach((areasDoc) => {
+      areasDocsSnap.forEach(async (areasDoc) => {
         if (areasDoc.data().areaInfo.areaId === `${props.areaId}`) {
           console.log(areasDoc.data().areaInfo.areaId, areasDoc.id);
 
@@ -41,10 +43,12 @@ export default {
             `${areasDoc.id}`,
             "items"
           );
-          console.log(tempCollRef);
+          // console.log(tempCollRef);
 
-          const tempDocsSnap = getDocs(tempCollRef);
-          console.log(Object.values(tempDocsSnap));
+          const tempDocsSnap = await getDocs(tempCollRef);
+          tempDocsSnap.forEach((tempDoc) => {
+            areaData.value.push(tempDoc.data());
+          });
         }
       });
     };

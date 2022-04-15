@@ -65,8 +65,9 @@ export default {
     const newAreaIdSubmission = ref("");
     const newAreaNameSubmission = ref("");
     const areaAccessSubmission = ref("");
+
     const createNewArea = async () => {
-      const collRef = collection(
+      const areasCollRef = collection(
         db,
         "surveyorBD",
         `${props.jobId}`,
@@ -74,13 +75,16 @@ export default {
         `floor-${props.floorId}`,
         "areas"
       );
-      await addDoc(collRef, {
+
+      const newAreaDocRef = await addDoc(areasCollRef, {
         areaInfo: {
           areaId: `${newAreaIdSubmission.value}`,
           areaName: `${newAreaNameSubmission.value}`,
           areaAccess: `${areaAccessSubmission.value}`,
         },
       });
+
+      await addDoc(newAreaCollRef, {});
       router.push({
         name: "Floor",
         params: { jobId: `${props.jobId}`, floorId: `${props.floorId}` },
