@@ -61,6 +61,7 @@ import {
 export default {
   props: ["jobId", "floorId"],
   setup(props) {
+    console.log(props.jobId, props.floorId);
     const router = useRouter();
     const newAreaIdSubmission = ref("");
     const newAreaNameSubmission = ref("");

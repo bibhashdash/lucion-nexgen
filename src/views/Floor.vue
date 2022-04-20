@@ -12,8 +12,6 @@
       name: 'NewArea',
       params: { jobId: `${jobId}`, floorId: `${floorId}` },
     }"
-    :jobId="jobId"
-    :floorId="floorId"
     ><p>Add a new area</p></router-link
   >
   <ul class="" v-for="fd in floorData" :key="fd">

@@ -1,33 +1,40 @@
 <template>
+  <router-link
+    :to="{
+      name: 'SurveyArea',
+      params: { floorId: `${floorId}`, jobId: `${jobId}`, areaId: `${areaId}` },
+    }"
+    >Back to Survey Area</router-link
+  >
   <h1>Add a new item</h1>
 
   <div class="new-item-form">
     <form @submit.prevent="addData" action="">
       <div class="form-slot">
         <label for="">Item name</label>
-        <input v-model="item" type="text" name="" id="" />
+        <input v-model="itemName" type="text" name="" id="" />
       </div>
       <div class="form-slot">
         <label for="">Material</label>
-        <input v-model="material" type="text" name="" id="" />
+        <input v-model="itemMaterial" type="text" name="" id="" />
       </div>
-      <div class="form-slot">
+      <!-- <div class="form-slot">
         <label for="">Item Access</label>
         <select v-model="itemAccess" name="" id="">
           <option value="full">Full</option>
           <option value="limited">Limited</option>
           <option value="no">No</option>
         </select>
-      </div>
+      </div> -->
 
-      <div class="form-slot">
+      <!-- <div class="form-slot">
         <label for="">Suspect Asbestos?</label>
         <select v-model="acmSuspect" name="" id="">
           <option value="true">Yes</option>
           <option value="false">No</option>
         </select>
-      </div>
-      <div class="form-slot acm-data" v-if="acmSuspect === 'yes'">
+      </div> -->
+      <!-- <div class="form-slot acm-data" v-if="acmSuspect === 'yes'">
         <div class="sampleid-slot">
           <label for="">Sample number</label>
           <input v-model="sampleId" type="text" />
@@ -68,8 +75,8 @@
             </select>
           </div>
         </div>
-      </div>
-      <div class="form-slot">
+      </div> -->
+      <!-- <div class="form-slot">
         <label for="">Item Comments</label>
 
         <textarea
@@ -79,7 +86,7 @@
           cols="30"
           rows="10"
         ></textarea>
-      </div>
+      </div> -->
       <button>Submit</button>
     </form>
   </div>
@@ -89,32 +96,72 @@
 import { ref } from "@vue/reactivity";
 import { db } from "../firebase/config";
 import { useRouter } from "vue-router";
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 export default {
-  setup() {
-    const item = ref("");
-    const material = ref("");
-    const itemAccess = ref("");
-    const acmSuspect = ref(null);
-    const scoreProductType = ref(null);
-    const scoreCondition = ref(null);
-    const scoreSurfaceTreatment = ref(null);
-    const scoreAsbestosType = ref(null);
-    const sampleId = ref(null);
-    const itemComments = ref(null);
-    const addData = () => {
-      // use Local Storage to store survey data for now
+  props: ["jobId", "areaId", "floorId", "floorData"],
+  setup(props) {
+    const router = useRouter();
+    const itemName = ref("");
+    const itemMaterial = ref("");
+
+    // const itemAccess = ref("");
+    // const acmSuspect = ref(null);
+    // const scoreProductType = ref(null);
+    // const scoreCondition = ref(null);
+    // const scoreSurfaceTreatment = ref(null);
+    // const scoreAsbestosType = ref(null);
+    // const sampleId = ref(null);
+    // const itemComments = ref(null);
+    const addData = async () => {
+      const collRef = collection(
+        db,
+        "surveyorBD",
+        `${props.jobId}`,
+        "surveyData",
+        `floor-${props.floorId}`,
+        "areas"
+      );
+      const areasDocsSnap = await getDocs(collRef);
+      areasDocsSnap.forEach(async (areasDoc) => {
+        if (areasDoc.data().areaInfo.areaId === `${props.areaId}`) {
+          const tempDocRef = doc(collRef, `${areasDoc.id}`);
+          await updateDoc(tempDocRef, {
+            [`items.${itemName.value}`]: {
+              itemMaterial: itemMaterial.value,
+              itemName: itemName.value,
+            },
+          });
+
+          router.push({
+            name: "SurveyArea",
+            params: {
+              floorId: `${props.floorId}`,
+              jobId: `${props.jobId}`,
+              areaId: `${props.areaId}`,
+            },
+          });
+        }
+      });
     };
+
     return {
-      item,
-      material,
-      acmSuspect,
-      scoreProductType,
-      scoreCondition,
-      scoreSurfaceTreatment,
-      scoreAsbestosType,
-      itemAccess,
-      sampleId,
+      addData,
+      itemName,
+      itemMaterial,
+      // acmSuspect,
+      // scoreProductType,
+      // scoreCondition,
+      // scoreSurfaceTreatment,
+      // scoreAsbestosType,
+      // itemAccess,
+      // sampleId,
     };
   },
 };

@@ -21,11 +21,11 @@ import { useRouter, useRoute } from "vue-router";
 import { doc, getDoc, setDoc, updateDoc, collection } from "firebase/firestore";
 
 export default {
-  props: ["jobId", "floorId"],
+  props: ["jobId"],
   setup(props) {
     const router = useRouter();
     const newFloorSubmission = ref("");
-
+    console.log(props.jobId);
     const createNewFloor = async () => {
       const collRef = collection(
         db,

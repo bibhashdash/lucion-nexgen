@@ -13,7 +13,6 @@
       params: { jobId: `${jobId}` },
     }"
     :jobId="jobId"
-    :floorId="floorId"
     ><p>Add a new floor</p></router-link
   >
   <div v-if="surveyData" class="">

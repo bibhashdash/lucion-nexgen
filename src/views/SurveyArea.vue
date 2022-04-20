@@ -7,6 +7,17 @@
     >Back to Floor</router-link
   >
   <h1>{{ floorId }}/{{ areaId }}</h1>
+  <router-link
+    :to="{
+      name: 'NewItem',
+      params: {
+        floorId: `${floorId}`,
+        jobId: `${jobId}`,
+        areaId: `${areaId}`,
+      },
+    }"
+    >Add a new item</router-link
+  >
   <div class="area-data" v-if="areaData">
     <ul v-for="ad in areaData" :key="ad">
       <li><DisplayItemData :ad="ad" /></li>
@@ -25,6 +36,7 @@ export default {
   components: { DisplayItemData },
   setup(props) {
     const areaData = ref(null);
+    const areaFirebaseId = ref("");
     const showAreaData = async () => {
       const areasCollRef = collection(
         db,
@@ -38,8 +50,6 @@ export default {
       const areasDocsSnap = await getDocs(areasCollRef);
       areasDocsSnap.forEach(async (areasDoc) => {
         if (areasDoc.data().areaInfo.areaId === `${props.areaId}`) {
-          // console.log(areasDoc.data().areaInfo.areaId, areasDoc.id);
-          // console.log(areasDoc.data().items);
           areaData.value = areasDoc.data().items;
         }
       });

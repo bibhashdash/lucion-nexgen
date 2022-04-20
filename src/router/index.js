@@ -33,6 +33,12 @@ const routes = [
     component: NewArea,
     props: true,
   },
+  {
+    path: "/jobs/:jobId/surveydata/:floorId/:areaId/newitem",
+    name: "NewItem",
+    component: NewItem,
+    props: true,
+  },
 
   {
     path: "/jobs/:jobId",
