@@ -82,6 +82,7 @@ export default {
           areaName: `${newAreaNameSubmission.value}`,
           areaAccess: `${areaAccessSubmission.value}`,
         },
+        items: {},
       });
 
       router.push({

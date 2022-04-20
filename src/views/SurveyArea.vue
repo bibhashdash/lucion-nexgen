@@ -7,9 +7,9 @@
     >Back to Floor</router-link
   >
   <h1>{{ floorId }}/{{ areaId }}</h1>
-  <div class="" v-if="areaData">
+  <div class="area-data" v-if="areaData">
     <ul v-for="ad in areaData" :key="ad">
-      <li>{{ ad.item }} - {{ ad.material }}</li>
+      <li><DisplayItemData :ad="ad" /></li>
     </ul>
   </div>
 </template>
@@ -19,10 +19,12 @@ import { ref } from "@vue/reactivity";
 import { db } from "../firebase/config";
 import { useRouter } from "vue-router";
 import { doc, getDoc, collection, getDocs } from "firebase/firestore";
+import DisplayItemData from "../components/DisplayItemData.vue";
 export default {
   props: ["jobId", "areaId", "floorId", "floorData"],
+  components: { DisplayItemData },
   setup(props) {
-    const areaData = ref([]);
+    const areaData = ref(null);
     const showAreaData = async () => {
       const areasCollRef = collection(
         db,
@@ -36,19 +38,9 @@ export default {
       const areasDocsSnap = await getDocs(areasCollRef);
       areasDocsSnap.forEach(async (areasDoc) => {
         if (areasDoc.data().areaInfo.areaId === `${props.areaId}`) {
-          console.log(areasDoc.data().areaInfo.areaId, areasDoc.id);
-
-          const tempCollRef = collection(
-            areasCollRef,
-            `${areasDoc.id}`,
-            "items"
-          );
-          // console.log(tempCollRef);
-
-          const tempDocsSnap = await getDocs(tempCollRef);
-          tempDocsSnap.forEach((tempDoc) => {
-            areaData.value.push(tempDoc.data());
-          });
+          // console.log(areasDoc.data().areaInfo.areaId, areasDoc.id);
+          // console.log(areasDoc.data().items);
+          areaData.value = areasDoc.data().items;
         }
       });
     };
@@ -65,5 +57,9 @@ export default {
 ul,
 li {
   list-style: none;
+  padding: 0;
+}
+.area-data {
+  width: 100%;
 }
 </style>

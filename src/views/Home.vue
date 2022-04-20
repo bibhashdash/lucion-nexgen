@@ -53,6 +53,7 @@ export default {
       errorMessage.value = "";
       jobSearchQuery.value = "";
     };
+
     return { jobSearchQuery, searchForJob, errorMessage, clearErrorMessage };
   },
 };
