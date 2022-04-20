@@ -4,7 +4,7 @@
       name: 'Floor',
       params: { jobId: `${jobId}`, floorId: `${floorId}` },
     }"
-    >Back to Floor Data</router-link
+    >⬅️ Back to Floor Data</router-link
   >
   <h1>Create a new area for floor - {{ floorId }}</h1>
   <form @submit.prevent="createNewArea">

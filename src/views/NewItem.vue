@@ -4,7 +4,7 @@
       name: 'SurveyArea',
       params: { floorId: `${floorId}`, jobId: `${jobId}`, areaId: `${areaId}` },
     }"
-    >Back to Survey Area</router-link
+    >⬅️ Back to Survey Area</router-link
   >
   <h1>Add a new item</h1>
 

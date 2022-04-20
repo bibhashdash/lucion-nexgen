@@ -4,7 +4,7 @@
       name: 'Floor',
       params: { floorId: `${floorId}` },
     }"
-    >Back to Floor</router-link
+    >⬅️ Back to Floor</router-link
   >
   <h1>{{ floorId }}/{{ areaId }}</h1>
   <router-link
