@@ -20,7 +20,14 @@
   >
   <div class="area-data" v-if="areaData">
     <ul v-for="ad in areaData" :key="ad">
-      <li><DisplayItemData :ad="ad" /></li>
+      <li>
+        <DisplayItemData
+          :ad="ad"
+          :jobId="jobId"
+          :areaId="areaId"
+          :floorId="floorId"
+        />
+      </li>
     </ul>
   </div>
 </template>
