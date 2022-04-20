@@ -8,7 +8,8 @@
   >
   <h1>This is the info for job {{ jobId }}</h1>
 
-  <h2>Site Name: {{ info }}</h2>
+  <h2>Site Name: {{ siteName }}</h2>
+  <h3>Site Access: {{ siteAccess }}</h3>
 </template>
 
 <script>
@@ -19,18 +20,19 @@ import { doc, getDoc } from "firebase/firestore";
 export default {
   props: ["jobId"],
   setup(props) {
-    const info = ref(null);
+    const siteName = ref(null);
+    const siteAccess = ref(null);
     const showJobInfo = async () => {
       const response = await getDoc(doc(db, "surveyorBD", `${props.jobId}`));
       // console.log(response.data());
-      info.value = response.data().jobInfo.siteName;
-
-      console.log(info.value);
+      siteName.value = response.data().jobInfo.siteName;
+      siteAccess.value = response.data().jobInfo.siteAccess;
     };
     showJobInfo();
-    console.log(info.value);
+
     return {
-      info,
+      siteName,
+      siteAccess,
     };
   },
 };

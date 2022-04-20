@@ -1,4 +1,5 @@
 <template>
+  <router-link to="/">Back to Home</router-link>
   <h1>Create a new job</h1>
   <form @submit.prevent="createNewJob">
     <div class="form-slot">
@@ -8,6 +9,10 @@
     <div class="form-slot">
       <label>Site Name</label>
       <input v-model="siteName" type="text" name="" id="" required />
+    </div>
+    <div class="form-slot">
+      <label>Site Access</label>
+      <input v-model="siteAccess" type="text" name="" id="" required />
     </div>
     <!-- <div class="form-slot">
       <label>Start Date</label>
@@ -19,7 +24,6 @@
     </div> -->
     <button type="submit">Create Job</button>
   </form>
-  <router-link to="/">Back to Home</router-link>
 </template>
 
 <script>
@@ -32,12 +36,14 @@ export default {
   setup() {
     const jobNumber = ref(null);
     const siteName = ref("");
+    const siteAccess = ref("");
     const router = useRouter();
     const createNewJob = async () => {
       await setDoc(doc(db, "surveyorBD", `${jobNumber.value}`), {
         jobInfo: {
           jobNumber: jobNumber.value,
           siteName: siteName.value,
+          siteAccess: siteAccess.value,
         },
       }).then(router.push("/"));
     };
@@ -46,6 +52,7 @@ export default {
       jobNumber,
       siteName,
       createNewJob,
+      siteAccess,
     };
   },
 };

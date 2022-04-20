@@ -7,7 +7,7 @@
       <SingleJobSummaryDisplay :singleJob="job" />
     </div> -->
     <router-link to="/newjob">Create a new job</router-link>
-    <form @click.prevent="searchForJob">
+    <form @submit.prevent="searchForJob">
       <input
         v-model="jobSearchQuery"
         type="number"
@@ -16,6 +16,9 @@
       />
       <button type="submit">Search</button>
     </form>
+    <div class="" v-if="errorMessage">
+      {{ errorMessage }} <span @click="clearErrorMessage">❌</span>
+    </div>
   </div>
 </template>
 
@@ -32,6 +35,7 @@ export default {
   setup() {
     const jobSearchQuery = ref(null);
     const router = useRouter();
+    const errorMessage = ref("");
     const searchForJob = async () => {
       const docRef = doc(db, "surveyorBD", `${jobSearchQuery.value}`);
       const docSnap = await getDoc(docRef);
@@ -42,10 +46,14 @@ export default {
           params: { jobId: `${jobSearchQuery.value}` },
         });
       } else {
-        console.log("Job not found");
+        errorMessage.value = "Job not found";
       }
     };
-    return { jobSearchQuery, searchForJob };
+    const clearErrorMessage = () => {
+      errorMessage.value = "";
+      jobSearchQuery.value = "";
+    };
+    return { jobSearchQuery, searchForJob, errorMessage, clearErrorMessage };
   },
 };
 </script>

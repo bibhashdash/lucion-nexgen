@@ -84,7 +84,6 @@ export default {
         },
       });
 
-      await addDoc(newAreaCollRef, {});
       router.push({
         name: "Floor",
         params: { jobId: `${props.jobId}`, floorId: `${props.floorId}` },
