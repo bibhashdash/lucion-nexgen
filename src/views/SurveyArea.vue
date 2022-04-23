@@ -7,17 +7,32 @@
     ><button>⬅️ Back to Floor</button>
   </router-link>
   <h1>{{ floorId }}/{{ areaId }}</h1>
-  <router-link
-    :to="{
-      name: 'NewItem',
-      params: {
-        floorId: `${floorId}`,
-        jobId: `${jobId}`,
-        areaId: `${areaId}`,
-      },
-    }"
-    ><button>Add a new item ➕</button>
-  </router-link>
+  <div class="cta-buttons">
+    <router-link
+      :to="{
+        name: 'NewItem',
+        params: {
+          floorId: `${floorId}`,
+          jobId: `${jobId}`,
+          areaId: `${areaId}`,
+        },
+      }"
+      ><button>Add a new item ➕</button>
+    </router-link>
+    <router-link
+      :to="{
+        name: 'EditArea',
+        params: {
+          jobId: `${jobId}`,
+          floorId: `${floorId}`,
+          areaId: `${areaId}`,
+          areaName: `${areaName}`,
+        },
+      }"
+      ><button>Edit Area</button></router-link
+    >
+  </div>
+
   <div class="area-data" v-if="areaData">
     <ul v-for="ad in areaData" :key="ad">
       <li>
@@ -39,7 +54,7 @@ import { useRouter } from "vue-router";
 import { doc, getDoc, collection, getDocs } from "firebase/firestore";
 import DisplayItemData from "../components/DisplayItemData.vue";
 export default {
-  props: ["jobId", "areaId", "floorId", "floorData"],
+  props: ["jobId", "areaId", "floorId", "floorData", "areaName"],
   components: { DisplayItemData },
   setup(props) {
     const areaData = ref(null);

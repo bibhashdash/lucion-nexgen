@@ -122,6 +122,7 @@ export default {
     const addData = async () => {
       const docRef = doc(db, "surveyorBD", `${props.jobId}`);
       const tempDoc = await getDoc(docRef);
+      
     };
     router.push({
       name: "SurveyArea",

@@ -10,6 +10,7 @@ import Floor from "../views/Floor.vue";
 import NewFloor from "../views/NewFloor.vue";
 import EditFloor from "../views/EditFloor.vue";
 import NewArea from "../views/NewArea.vue";
+import EditArea from "../views/EditArea.vue";
 
 const routes = [
   {
@@ -38,6 +39,12 @@ const routes = [
     path: "/jobs/:jobId/surveydata/:floorId/newarea",
     name: "NewArea",
     component: NewArea,
+    props: true,
+  },
+  {
+    path: "/jobs/:jobId/surveydata/:floorId/:areaId/:areaName/editarea",
+    name: "EditArea",
+    component: EditArea,
     props: true,
   },
   {

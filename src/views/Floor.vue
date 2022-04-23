@@ -34,6 +34,7 @@
             jobId: `${jobId}`,
             floorId: `${floorId}`,
             areaId: `${fd[0]}`,
+            areaName: `${fd[1]}`,
           },
         }"
       >
