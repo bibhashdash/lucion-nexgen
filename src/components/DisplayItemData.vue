@@ -1,10 +1,10 @@
 <template>
   <div class="item-slot">
-    <h2>
-      <span class="item item-name">{{ ad.itemName }}</span>
-      <span class="item item-material">{{ ad.itemMaterial }}</span>
-      <span @click="deleteItem">☠️</span>
-    </h2>
+    <h3>
+      <span class="item item-name">{{ ad[0] }}</span>
+      <span class="item item-material">{{ ad[1] }}</span>
+      <!-- <span @click="deleteItem">☠️</span> -->
+    </h3>
   </div>
 </template>
 
@@ -24,34 +24,29 @@ import {
 export default {
   props: ["ad", "jobId", "areaId", "floorId"],
   setup(props) {
-    // console.log(props.ad.itemName, props.ad.itemMaterial);
-
-    const deleteItem = async () => {
-      // console.log(`You clicked delete on item ${props.ad.itemName}`);
-      // console.log();
-
-      const collRef = collection(
-        db,
-        "surveyorBD",
-        `${props.jobId}`,
-        "surveyData",
-        `floor-${props.floorId}`,
-        "areas"
-      );
-      const areasDocsSnap = await getDocs(collRef);
-      areasDocsSnap.forEach(async (areasDoc) => {
-        if (areasDoc.data().areaInfo.areaId === `${props.areaId}`) {
-          const tempDocRef = doc(collRef, `${areasDoc.id}`);
-          await updateDoc(tempDocRef, {
-            [`items.${props.ad.itemName}`]: deleteField(),
-          });
-          location.reload();
-        }
-      });
-    };
-    return {
-      deleteItem,
-    };
+    // const deleteItem = async () => {
+    //   const collRef = collection(
+    //     db,
+    //     "surveyorBD",
+    //     `${props.jobId}`,
+    //     "surveyData",
+    //     `floor-${props.floorId}`,
+    //     "areas"
+    //   );
+    //   const areasDocsSnap = await getDocs(collRef);
+    //   areasDocsSnap.forEach(async (areasDoc) => {
+    //     if (areasDoc.data().areaInfo.areaId === `${props.areaId}`) {
+    //       const tempDocRef = doc(collRef, `${areasDoc.id}`);
+    //       await updateDoc(tempDocRef, {
+    //         [`items.${props.ad.itemName}`]: deleteField(),
+    //       });
+    //       location.reload();
+    //     }
+    //   });
+    // };
+    // return {
+    //   deleteItem,
+    // };
   },
 };
 </script>
@@ -65,8 +60,8 @@ export default {
   border-radius: 5px;
   position: relative;
 }
-.item-slot h2 {
-  width: 80%;
+.item-slot h3 {
+  width: 90%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;

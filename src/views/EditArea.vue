@@ -6,43 +6,43 @@
     }"
     >⬅️ Back to Floor Data</router-link
   >
-  <h1>Edit area - {{ areaId }}/{{ areaName }}</h1>
+  <h1>Edit area - {{ floorId }}/ {{ areaId }} /{{ areaName }}</h1>
   <form @submit.prevent="editCurrentArea">
     <label>Edit area Id</label>
     <input
       v-model="editAreaIdSubmission"
       type="text"
       name=""
-      id=""
+      id="editAreaIdSubmission"
       required
-      placeholder="ensure 3 digits for eg. 002"
+      placeholder="for eg. 001"
     />
     <br />
     <br />
-    <label>Enter an area name</label>
+    <label>Edit area name</label>
     <input
       v-model="editAreaNameSubmission"
       type="text"
       name=""
-      id=""
+      id="editAreaNameSubmission"
       required
       placeholder="for eg. bedroom"
     />
     <br />
     <br />
 
-    <label>Access?</label>
+    <label>Edit area Access?</label>
     <input
       v-model="editAreaAccessSubmission"
       type="text"
       name=""
-      id=""
+      id="editAreaAccessSubmission"
       required
       placeholder="full, limited, or no"
     />
     <br />
     <br />
-    <button type="submit">Create area</button>
+    <button type="submit">Save area</button>
   </form>
 </template>
 
@@ -59,6 +59,7 @@ import {
   getDocs,
   deleteField,
 } from "firebase/firestore";
+import { onMounted } from "@vue/runtime-core";
 export default {
   props: ["jobId", "floorId", "areaId", "areaName"],
   setup(props) {
@@ -72,12 +73,6 @@ export default {
       const docRef = doc(db, "surveyorBD", `${props.jobId}`);
       // const doc1 = await getDoc(docRef);
       const tempObject = await getDoc(docRef);
-
-      console.log(
-        tempObject.data().floors[`floor${props.floorId}`].areas[
-          `${props.areaId}`
-        ]
-      );
 
       await updateDoc(docRef, {
         [`floors.floor${props.floorId}.areas.${editAreaIdSubmission.value}`]:
@@ -94,10 +89,14 @@ export default {
         [`floors.floor${props.floorId}.areas.${props.areaId}`]: deleteField(),
       });
 
-      //   router.push({
-      //     name: "SurveyData",
-      //     params: { jobId: props.jobId },
-      //   });
+      router.push({
+        name: "SurveyArea",
+        params: {
+          jobId: props.jobId,
+          floorId: props.floorId,
+          areaId: props.areaId,
+        },
+      });
     };
     return {
       editCurrentArea,

@@ -6,7 +6,7 @@
     }"
     ><button>⬅️ Back to Floor</button>
   </router-link>
-  <h1>{{ floorId }}/{{ areaId }}</h1>
+  <h1>{{ floorId }}/{{ areaId }}/{{ areaName }}</h1>
   <div class="cta-buttons">
     <router-link
       :to="{
@@ -15,6 +15,7 @@
           floorId: `${floorId}`,
           jobId: `${jobId}`,
           areaId: `${areaId}`,
+          areaName: `${areaName}`,
         },
       }"
       ><button>Add a new item ➕</button>
@@ -57,29 +58,22 @@ export default {
   props: ["jobId", "areaId", "floorId", "floorData", "areaName"],
   components: { DisplayItemData },
   setup(props) {
-    const areaData = ref(null);
-    const areaFirebaseId = ref("");
+    const areaData = ref([]);
     const showAreaData = async () => {
-      const areasCollRef = collection(
-        db,
-        "surveyorBD",
-        `${props.jobId}`,
-        "surveyData",
-        `floor-${props.floorId}`,
-        "areas"
-      );
-
-      const areasDocsSnap = await getDocs(areasCollRef);
-      areasDocsSnap.forEach(async (areasDoc) => {
-        if (areasDoc.data().areaInfo.areaId === `${props.areaId}`) {
-          areaData.value = areasDoc.data().items;
-        }
-      });
+      const docRef = doc(db, "surveyorBD", `${props.jobId}`);
+      const tempDoc = await getDoc(docRef);
+      // console.log(tempDoc.data().floors[`floor${props.floorId}`]);
+      for (const [key, value] of Object.entries(
+        tempDoc.data().floors[`floor${props.floorId}`].areas[`${props.areaId}`]
+          .items
+      )) {
+        areaData.value.push([value.itemName, value.itemMaterial]);
+      }
     };
     showAreaData();
     return {
-      showAreaData,
       areaData,
+      showAreaData,
     };
   },
 };

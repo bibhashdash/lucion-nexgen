@@ -105,7 +105,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 export default {
-  props: ["jobId", "areaId", "floorId", "floorData"],
+  props: ["jobId", "areaId", "floorId", "floorData", "areaName"],
   setup(props) {
     const router = useRouter();
     const itemName = ref("");
@@ -121,17 +121,24 @@ export default {
     // const itemComments = ref(null);
     const addData = async () => {
       const docRef = doc(db, "surveyorBD", `${props.jobId}`);
-      const tempDoc = await getDoc(docRef);
-      
+      await updateDoc(docRef, {
+        [`floors.floor${props.floorId}.areas.${props.areaId}.items.${itemName.value}`]:
+          {
+            itemName: itemName.value,
+            itemMaterial: itemMaterial.value,
+          },
+      });
+      router.push({
+        name: "SurveyArea",
+        params: {
+          floorId: `${props.floorId}`,
+          jobId: `${props.jobId}`,
+          areaId: `${props.areaId}`,
+          areaName: `${props.areaName}`,
+        },
+      });
     };
-    router.push({
-      name: "SurveyArea",
-      params: {
-        floorId: `${props.floorId}`,
-        jobId: `${props.jobId}`,
-        areaId: `${props.areaId}`,
-      },
-    });
+
     return {
       addData,
       itemName,
