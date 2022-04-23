@@ -2,20 +2,23 @@
   <router-link to="/"><button>⬅️ Back to Home</button></router-link>
   <h1>Welcome to job {{ jobId }}</h1>
   <router-link
+    class="item-slot"
     :to="{
       name: 'JobInfo',
       params: { jobId: `${jobId}` },
     }"
     :jobId="jobId"
-    >Show Job info</router-link
   >
+    <h2>Show Job info</h2>
+  </router-link>
   <router-link
+    class="item-slot"
     :to="{
       name: 'SurveyData',
       params: { jobId: `${jobId}` },
     }"
     :jobId="jobId"
-    >Show survey Data</router-link
+    ><h2>Show survey Data</h2></router-link
   >
 </template>
 

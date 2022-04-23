@@ -19,11 +19,14 @@
   <div class="" v-if="surveyData">
     <ul class="" v-for="data in surveyData" :key="data">
       <router-link
+        class="item-slot"
         :to="{
           name: 'Floor',
           params: { floorId: `${data.floorId}` },
         }"
-        ><li>View data for floor - {{ data.floorId }}</li></router-link
+        ><li>
+          <h2>View data for floor - {{ data.floorId }}</h2>
+        </li></router-link
       >
     </ul>
   </div>

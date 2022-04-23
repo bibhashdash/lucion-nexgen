@@ -28,6 +28,7 @@
   <div class="" v-if="floorData">
     <ul v-for="fd in floorData" :key="fd">
       <router-link
+        class="item-slot"
         :to="{
           name: 'SurveyArea',
           params: {
@@ -39,8 +40,10 @@
         }"
       >
         <li>
-          {{ floorId }}/{{ fd[0] }}/{{ fd[1] }}
-          <span v-if="fd[2] != 'full'">⛔</span>
+          <h2>
+            {{ floorId }}/{{ fd[0] }}/{{ fd[1] }}
+            <span v-if="fd[2] != 'full'">⛔</span>
+          </h2>
         </li></router-link
       >
     </ul>
