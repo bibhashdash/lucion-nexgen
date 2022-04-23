@@ -1,5 +1,5 @@
 <template>
-  <router-link to="/">Back to Home</router-link>
+  <router-link to="/"><button>⬅️ Back to Home</button></router-link>
   <h1>Create a new job</h1>
   <form @submit.prevent="createNewJob">
     <div class="form-slot">

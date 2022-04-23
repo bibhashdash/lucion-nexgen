@@ -25,8 +25,11 @@ export default {
   props: ["ad", "jobId", "areaId", "floorId"],
   setup(props) {
     // console.log(props.ad.itemName, props.ad.itemMaterial);
+
     const deleteItem = async () => {
-      console.log(`You clicked delete on item ${props.ad.itemName}`);
+      // console.log(`You clicked delete on item ${props.ad.itemName}`);
+      // console.log();
+
       const collRef = collection(
         db,
         "surveyorBD",
@@ -45,7 +48,6 @@ export default {
           location.reload();
         }
       });
-      //
     };
     return {
       deleteItem,
@@ -59,6 +61,9 @@ export default {
   width: 100%;
   display: flex;
   justify-content: center;
+  box-shadow: 4px 4px 4px 2px rgba(0, 0, 0, 0.351);
+  border-radius: 5px;
+  position: relative;
 }
 .item-slot h2 {
   width: 80%;
@@ -66,6 +71,32 @@ export default {
   flex-direction: row;
   justify-content: space-between;
 }
+.item-slot h2 span {
+  cursor: pointer;
+}
+.hidden {
+  display: none;
+}
+.modal {
+  position: absolute;
+  z-index: 5;
+
+  /* */
+}
+.modal-bg {
+  /* position: absolute; */
+  top: 0;
+  left: 0;
+  background-color: rgba(53, 53, 53, 0.454);
+  backdrop-filter: blur(2px);
+  width: 100vw;
+  height: 100vh;
+}
+.modal-content {
+  z-index: 8;
+  position: absolute;
+}
+
 /* .item-name {
   justify-self: flex-start;
 }

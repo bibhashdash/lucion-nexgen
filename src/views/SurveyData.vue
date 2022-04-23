@@ -4,8 +4,8 @@
       name: 'Job',
       params: { jobId: `${jobId}` },
     }"
-    >⬅️ Back to Job Dashboard</router-link
-  >
+    ><button>⬅️ Back to Job Dashboard</button>
+  </router-link>
   <h1>{{ jobId }}</h1>
   <router-link
     :to="{
@@ -13,20 +13,36 @@
       params: { jobId: `${jobId}` },
     }"
     :jobId="jobId"
-    ><p>Add a new floor</p></router-link
+    ><button>Add a new floor ➕</button></router-link
   >
-  <div v-if="surveyData" class="">
-    <div class="" v-for="data in surveyData" :key="data">
+
+  <div class="" v-if="surveyData">
+    <ul class="" v-for="data in surveyData" :key="data">
+      <router-link
+        :to="{
+          name: 'Floor',
+          params: { floorId: `${data.floorId}` },
+        }"
+        ><li :data="data">
+          View data for floor - {{ data.floorId }}
+        </li></router-link
+      >
+    </ul>
+  </div>
+
+  <!-- <div v-if="listOfFloors" class="">
+    <div class="" v-for="floor in listOfFloors" :key="floor">
+      <h2>View data for {{ floor }}</h2>
       <router-link
         :to="{
           name: 'Floor',
           params: { floorId: `${data.floorId}` },
           props: ['jobId', 'data.floorId', 'data'],
         }"
-        ><h2>View data for Floor {{ data.floorId }}</h2></router-link
+        ><h2>View data for Floor {{ floor }}</h2></router-link
       >
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script>
@@ -37,19 +53,13 @@ import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 export default {
   props: ["jobId", "floorId"],
   setup(props) {
-    const surveyData = ref([]);
+    const surveyData = ref({});
     const showSurveyData = async () => {
-      const collRef = collection(
-        db,
-        "surveyorBD",
-        `${props.jobId}`,
-        "surveyData"
-      );
-      const docsSnap = await getDocs(collRef);
+      const docRef = doc(db, "surveyorBD", `${props.jobId}`);
 
-      docsSnap.forEach((doc) => {
-        surveyData.value.push(doc.data());
-      });
+      const doc1 = await getDoc(docRef);
+
+      surveyData.value = doc1.data().floors;
     };
     showSurveyData();
 

@@ -4,8 +4,8 @@
       name: 'Floor',
       params: { floorId: `${floorId}` },
     }"
-    >⬅️ Back to Floor</router-link
-  >
+    ><button>⬅️ Back to Floor</button>
+  </router-link>
   <h1>{{ floorId }}/{{ areaId }}</h1>
   <router-link
     :to="{
@@ -16,8 +16,8 @@
         areaId: `${areaId}`,
       },
     }"
-    >Add a new item</router-link
-  >
+    ><button>Add a new item ➕</button>
+  </router-link>
   <div class="area-data" v-if="areaData">
     <ul v-for="ad in areaData" :key="ad">
       <li>

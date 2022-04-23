@@ -4,16 +4,27 @@
       name: 'SurveyData',
       params: { jobId: `${jobId}` },
     }"
-    >⬅️ Back to Job Data</router-link
   >
+    <button>⬅️ Back to Job Data</button>
+  </router-link>
   <h1>Welcome to Floor {{ floorId }}</h1>
-  <router-link
-    :to="{
-      name: 'NewArea',
-      params: { jobId: `${jobId}`, floorId: `${floorId}` },
-    }"
-    ><p>Add a new area</p></router-link
-  >
+  <div class="cta-buttons">
+    <router-link
+      :to="{
+        name: 'NewArea',
+        params: { jobId: `${jobId}`, floorId: `${floorId}` },
+      }"
+      ><button>Add a new area</button></router-link
+    >
+    <router-link
+      :to="{
+        name: 'EditFloor',
+        params: { jobId: `${jobId}`, floorId: `${floorId}` },
+      }"
+      ><button>Edit Floor</button></router-link
+    >
+  </div>
+
   <ul class="" v-for="fd in floorData" :key="fd">
     <router-link
       :to="{
@@ -69,4 +80,11 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.cta-buttons {
+  width: 300px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+</style>

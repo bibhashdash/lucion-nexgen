@@ -1,5 +1,5 @@
 <template>
-  <router-link to="/">⬅️ Back to Home</router-link>
+  <router-link to="/"><button>⬅️ Back to Home</button></router-link>
   <h1>Welcome to job {{ jobId }}</h1>
   <router-link
     :to="{

@@ -27,22 +27,24 @@ export default {
     const newFloorSubmission = ref("");
     console.log(props.jobId);
     const createNewFloor = async () => {
-      const collRef = collection(
-        db,
-        "surveyorBD",
-        `${props.jobId}`,
-        "surveyData"
-      );
-
-      const docRef = doc(collRef, `floor-${newFloorSubmission.value}`);
-
-      await setDoc(docRef, {
-        floorId: `${newFloorSubmission.value}`,
-      });
-      router.push({
-        name: "SurveyData",
-        params: { jobId: props.jobId },
-      });
+      const docRef = doc(db, "surveyorBD", `${props.jobId}`);
+      const tempObject = await getDoc(docRef);
+      for (const [key, value] of Object.entries(tempObject.data().floors)) {
+        if (key === `floor${newFloorSubmission.value}`) {
+          alert("Error creating floor: Already exists!");
+        } else {
+          await updateDoc(docRef, {
+            [`floors.floor${newFloorSubmission.value}`]: {
+              areas: {},
+              floorId: newFloorSubmission.value,
+            },
+          });
+        }
+        router.push({
+          name: "SurveyData",
+          params: { jobId: props.jobId },
+        });
+      }
     };
 
     return {
