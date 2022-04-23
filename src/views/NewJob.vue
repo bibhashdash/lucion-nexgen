@@ -45,6 +45,7 @@ export default {
           siteName: siteName.value,
           siteAccess: siteAccess.value,
         },
+        floors: {},
       }).then(router.push("/"));
     };
 

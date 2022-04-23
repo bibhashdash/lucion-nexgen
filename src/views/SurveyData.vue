@@ -23,26 +23,10 @@
           name: 'Floor',
           params: { floorId: `${data.floorId}` },
         }"
-        ><li :data="data">
-          View data for floor - {{ data.floorId }}
-        </li></router-link
+        ><li>View data for floor - {{ data.floorId }}</li></router-link
       >
     </ul>
   </div>
-
-  <!-- <div v-if="listOfFloors" class="">
-    <div class="" v-for="floor in listOfFloors" :key="floor">
-      <h2>View data for {{ floor }}</h2>
-      <router-link
-        :to="{
-          name: 'Floor',
-          params: { floorId: `${data.floorId}` },
-          props: ['jobId', 'data.floorId', 'data'],
-        }"
-        ><h2>View data for Floor {{ floor }}</h2></router-link
-      >
-    </div>
-  </div> -->
 </template>
 
 <script>

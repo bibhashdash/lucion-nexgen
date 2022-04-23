@@ -25,27 +25,25 @@
     >
   </div>
 
-  <ul class="" v-for="fd in floorData" :key="fd">
-    <router-link
-      :to="{
-        name: 'SurveyArea',
-        params: {
-          jobId: `${jobId}`,
-          floorId: `${floorId}`,
-          areaId: `${fd.areaInfo.areaId}`,
-        },
-      }"
-      :jobId="jobId"
-      :areaId="`${fd.areaInfo.areaId}`"
-      :floorId="floorId"
-      :floorData="floorData"
-      ><li>
-        {{ floorId }}/{{ fd.areaInfo.areaId }}/{{ fd.areaInfo.areaName }}
-        <span v-if="fd.areaInfo.areaAccess === 'full'">✅</span>
-        <span v-else>⛔</span>
-      </li></router-link
-    >
-  </ul>
+  <div class="" v-if="floorData">
+    <ul v-for="fd in floorData" :key="fd">
+      <router-link
+        :to="{
+          name: 'SurveyArea',
+          params: {
+            jobId: `${jobId}`,
+            floorId: `${floorId}`,
+            areaId: `${fd[0]}`,
+          },
+        }"
+      >
+        <li>
+          {{ floorId }}/{{ fd[0] }}/{{ fd[1] }}
+          <span v-if="fd[2] != 'full'">⛔</span>
+        </li></router-link
+      >
+    </ul>
+  </div>
 </template>
 
 <script>
@@ -53,23 +51,31 @@ import { ref } from "@vue/reactivity";
 import { db } from "../firebase/config";
 import { useRouter } from "vue-router";
 import { doc, getDoc, collection, getDocs } from "firebase/firestore";
+
 export default {
-  props: ["jobId", "floorId", "data"],
+  props: ["jobId", "floorId"],
+
   setup(props) {
     const floorData = ref([]);
+
     const showFloorData = async () => {
-      const collRef = collection(
-        db,
-        "surveyorBD",
-        `${props.jobId}`,
-        "surveyData",
-        `floor-${props.floorId}`,
-        "areas"
-      );
-      const docsSnap = await getDocs(collRef);
-      docsSnap.forEach((doc) => {
-        floorData.value.push(doc.data());
-      });
+      const docRef = doc(db, "surveyorBD", `${props.jobId}`);
+      const docsSnap = await getDoc(docRef);
+      // console.log(typeof docsSnap.data().floors);
+      for (const [key, value] of Object.entries(docsSnap.data().floors)) {
+        if (key === `floor${props.floorId}`) {
+          // console.log(value.areas);
+          for (const [k, v] of Object.entries(value.areas)) {
+            // console.log(v);
+            // console.log(v.areaInfo.areaId, v.areaInfo.areaName);
+            floorData.value.push([
+              v.areaInfo.areaId,
+              v.areaInfo.areaName,
+              v.areaInfo.areaAccess,
+            ]);
+          }
+        }
+      }
     };
     showFloorData();
     return {

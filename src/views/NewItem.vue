@@ -120,37 +120,17 @@ export default {
     // const sampleId = ref(null);
     // const itemComments = ref(null);
     const addData = async () => {
-      const collRef = collection(
-        db,
-        "surveyorBD",
-        `${props.jobId}`,
-        "surveyData",
-        `floor-${props.floorId}`,
-        "areas"
-      );
-      const areasDocsSnap = await getDocs(collRef);
-      areasDocsSnap.forEach(async (areasDoc) => {
-        if (areasDoc.data().areaInfo.areaId === `${props.areaId}`) {
-          const tempDocRef = doc(collRef, `${areasDoc.id}`);
-          await updateDoc(tempDocRef, {
-            [`items.${itemName.value}`]: {
-              itemMaterial: itemMaterial.value,
-              itemName: itemName.value,
-            },
-          });
-
-          router.push({
-            name: "SurveyArea",
-            params: {
-              floorId: `${props.floorId}`,
-              jobId: `${props.jobId}`,
-              areaId: `${props.areaId}`,
-            },
-          });
-        }
-      });
+      const docRef = doc(db, "surveyorBD", `${props.jobId}`);
+      const tempDoc = await getDoc(docRef);
     };
-
+    router.push({
+      name: "SurveyArea",
+      params: {
+        floorId: `${props.floorId}`,
+        jobId: `${props.jobId}`,
+        areaId: `${props.areaId}`,
+      },
+    });
     return {
       addData,
       itemName,
