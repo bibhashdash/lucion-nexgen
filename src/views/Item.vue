@@ -156,7 +156,38 @@ export default {
       scoreAsbestosType.value = tempObject.acmData.scoreAsbestosType;
     };
     showItemData();
+
+    const addData = async () => {
+      const docRef = doc(db, "surveyorBD", `${props.jobId}`);
+      await updateDoc(docRef, {
+        [`floors.floor${props.floorId}.areas.${props.areaId}.items.${itemName.value}`]:
+          {
+            itemName: itemName.value,
+            itemMaterial: itemMaterial.value,
+            itemAccess: itemAccess.value,
+            acmSuspect: acmSuspect.value,
+            itemComments: itemComments.value,
+            acmData: {
+              sampleId: sampleId.value,
+              scoreProductType: scoreProductType.value,
+              scoreCondition: scoreCondition.value,
+              scoreSurfaceTreatment: scoreSurfaceTreatment.value,
+              scoreAsbestosType: scoreAsbestosType.value,
+            },
+          },
+      });
+      router.push({
+        name: "SurveyArea",
+        params: {
+          floorId: `${props.floorId}`,
+          jobId: `${props.jobId}`,
+          areaId: `${props.areaId}`,
+          areaName: `${props.areaName}`,
+        },
+      });
+    };
     return {
+      addData,
       showItemData,
       itemName,
       itemMaterial,
