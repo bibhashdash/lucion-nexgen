@@ -90,11 +90,10 @@ export default {
       });
 
       router.push({
-        name: "SurveyArea",
+        name: "Floor",
         params: {
           jobId: props.jobId,
           floorId: props.floorId,
-          areaId: props.areaId,
         },
       });
     };
