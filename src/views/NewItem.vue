@@ -6,7 +6,7 @@
     }"
     ><button>⬅️ Back to Survey Area</button>
   </router-link>
-  <h1>Add a new item</h1>
+  <h1>Let's add a new item</h1>
 
   <div class="new-item-form">
     <form @submit.prevent="addData" action="">

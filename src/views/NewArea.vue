@@ -6,7 +6,7 @@
     }"
     >⬅️ Back to Floor Data</router-link
   >
-  <h1>Create a new area for floor - {{ floorId }}</h1>
+  <h1>Let's create a new area for floor - {{ floorId }}</h1>
   <form @submit.prevent="createNewArea">
     <label>Enter an area Id</label>
     <input
