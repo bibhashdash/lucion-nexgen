@@ -16,7 +16,7 @@
     ><button>Add a new floor ➕</button></router-link
   >
 
-  <div class="" v-if="surveyData">
+  <div class="floors" v-if="surveyData">
     <ul class="" v-for="data in surveyData" :key="data">
       <router-link
         class="item-slot"
@@ -57,4 +57,12 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+ul,
+li {
+  list-style: none;
+}
+.floors {
+  width: 90%;
+}
+</style>

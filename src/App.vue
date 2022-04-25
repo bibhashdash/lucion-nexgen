@@ -11,6 +11,14 @@
   flex-direction: column;
   align-items: center;
   color: #2c3e50;
+  border: 4px solid rgb(0, 166, 144);
+  border-radius: 10px;
+  height: auto;
+
+  width: 100%;
+  max-width: 500px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 #nav {
@@ -30,6 +38,7 @@ a {
 }
 .item-slot {
   width: 100%;
+  max-width: 450px;
   display: flex;
   justify-content: center;
   box-shadow: 4px 4px 4px 2px rgba(0, 0, 0, 0.351);

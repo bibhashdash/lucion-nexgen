@@ -4,8 +4,8 @@
       name: 'Job',
       params: { jobId: `${jobId}` },
     }"
-    >Back to Job Dashboard</router-link
-  >
+    ><button>⬅️Back to Job Dashboard</button>
+  </router-link>
   <h1>This is the info for job {{ jobId }}</h1>
 
   <h2>Site Name: {{ siteName }}</h2>

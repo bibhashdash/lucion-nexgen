@@ -2,11 +2,15 @@
   <router-link
     :to="{
       name: 'SurveyArea',
-      params: { floorId: `${floorId}`, jobId: `${jobId}`, areaId: `${areaId}` },
+      params: {
+        floorId: `${floorId}`,
+        jobId: `${jobId}`,
+        areaId: `${areaId}`,
+        areaName: `${areaName}`,
+      },
     }"
     ><button>⬅️ Back to Survey Area</button>
   </router-link>
-  <h1>Add a new item</h1>
 
   <div class="new-item-form">
     <form @submit.prevent="addData" action="">
@@ -41,16 +45,20 @@
         </div>
         <div class="acm-scores">
           <div class="score-slot score-product-type">
-            <label for="">Product Type</label>
-            <select v-model="scoreProductType" name="" id="">
+            <label for="product-type">Product Type</label>
+            <select
+              v-model="scoreProductType"
+              name="product-type"
+              id="product-type"
+            >
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
             </select>
           </div>
           <div class="score-slot score-condition">
-            <label for="">Condition</label>
-            <select v-model="scoreCondition" name="" id="">
+            <label for="condition">Condition</label>
+            <select v-model="scoreCondition" name="condition" id="condition">
               <option value="0">0</option>
               <option value="1">1</option>
               <option value="2">2</option>
@@ -58,8 +66,12 @@
             </select>
           </div>
           <div class="score-slot score-surfaceTreatment">
-            <label for="">Surface Treatment</label>
-            <select v-model="scoreSurfaceTreatment" name="" id="">
+            <label for="surface-treatment">Surface Treatment</label>
+            <select
+              v-model="scoreSurfaceTreatment"
+              name="surface-treatment"
+              id="surface-treatment"
+            >
               <option value="0">0</option>
               <option value="1">1</option>
               <option value="2">2</option>
@@ -67,8 +79,12 @@
             </select>
           </div>
           <div class="score-slot score-asbestosType">
-            <label for="">Asbestos Type</label>
-            <select v-model="scoreAsbestosType" name="" id="">
+            <label for="asbestos-type">Asbestos Type</label>
+            <select
+              v-model="scoreAsbestosType"
+              name="asbestos-type"
+              id="asbestos-type"
+            >
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -103,10 +119,12 @@ import {
   getDocs,
   setDoc,
   updateDoc,
+  deleteField,
 } from "firebase/firestore";
 export default {
-  props: ["jobId", "areaId", "floorId", "floorData", "areaName"],
+  props: ["jobId", "areaId", "floorId", "itemName", "areaName", "ad"],
   setup(props) {
+    // console.log(props.ad);
     const router = useRouter();
     const itemName = ref("");
     const itemMaterial = ref("");
@@ -119,38 +137,27 @@ export default {
     const scoreAsbestosType = ref(null);
     const sampleId = ref("");
     const itemComments = ref("");
-    const addData = async () => {
-      const docRef = doc(db, "surveyorBD", `${props.jobId}`);
-      await updateDoc(docRef, {
-        [`floors.floor${props.floorId}.areas.${props.areaId}.items.${itemName.value}`]:
-          {
-            itemName: itemName.value,
-            itemMaterial: itemMaterial.value,
-            itemAccess: itemAccess.value,
-            acmSuspect: acmSuspect.value,
-            itemComments: itemComments.value,
-            acmData: {
-              sampleId: sampleId.value,
-              scoreProductType: scoreProductType.value,
-              scoreCondition: scoreCondition.value,
-              scoreSurfaceTreatment: scoreSurfaceTreatment.value,
-              scoreAsbestosType: scoreAsbestosType.value,
-            },
-          },
-      });
-      router.push({
-        name: "SurveyArea",
-        params: {
-          floorId: `${props.floorId}`,
-          jobId: `${props.jobId}`,
-          areaId: `${props.areaId}`,
-          areaName: `${props.areaName}`,
-        },
-      });
-    };
 
+    const showItemData = async () => {
+      const docRef = doc(db, "surveyorBD", `${props.jobId}`);
+      const tempObject = await (await getDoc(docRef)).data().floors[
+        `floor${props.floorId}`
+      ].areas[`${props.areaId}`].items[`${props.itemName}`];
+      itemName.value = tempObject.itemName;
+      itemMaterial.value = tempObject.itemMaterial;
+      itemAccess.value = tempObject.itemAccess;
+      itemComments.value = tempObject.itemComments;
+      acmSuspect.value = tempObject.acmSuspect;
+
+      sampleId.value = tempObject.acmData.sampleId;
+      scoreProductType.value = tempObject.acmData.scoreProductType;
+      scoreCondition.value = tempObject.acmData.scoreCondition;
+      scoreSurfaceTreatment.value = tempObject.acmData.scoreSurfaceTreatment;
+      scoreAsbestosType.value = tempObject.acmData.scoreAsbestosType;
+    };
+    showItemData();
     return {
-      addData,
+      showItemData,
       itemName,
       itemMaterial,
       acmSuspect,
@@ -166,18 +173,4 @@ export default {
 };
 </script>
 
-<style>
-.form-slot {
-  margin: 2rem 0;
-}
-.acm-data {
-  border: 1px solid red;
-  padding: 1rem;
-}
-.score-slot {
-  margin: 1rem 0;
-}
-label {
-  margin-right: 1rem;
-}
-</style>
+<style></style>

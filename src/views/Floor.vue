@@ -25,7 +25,7 @@
     >
   </div>
 
-  <div class="" v-if="floorData">
+  <div class="areas" v-if="floorData">
     <ul v-for="fd in floorData" :key="fd">
       <router-link
         class="item-slot"
@@ -96,5 +96,8 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+}
+.areas {
+  width: 90%;
 }
 </style>

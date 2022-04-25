@@ -1,10 +1,25 @@
 <template>
   <div class="item-slot">
-    <h3>
-      <span class="item item-name">{{ ad[0] }}</span>
-      <span class="item item-material">{{ ad[1] }}</span>
-      <!-- <span @click="deleteItem">☠️</span> -->
-    </h3>
+    <router-link
+      :to="{
+        name: 'Item',
+        params: {
+          floorId: `${floorId}`,
+          jobId: `${jobId}`,
+          areaId: `${areaId}`,
+          itemName: `${ad[0]}`,
+          ad: `${ad}`,
+          areaName: `${areaName}`,
+        },
+      }"
+      class="item-router-link"
+    >
+      <h3>
+        <span class="item item-name">{{ ad[0] }}</span>
+        <span class="item item-material">{{ ad[1] }}</span>
+        <!-- <span @click="deleteItem">☠️</span> -->
+      </h3>
+    </router-link>
   </div>
 </template>
 
@@ -22,7 +37,7 @@ import {
   deleteField,
 } from "firebase/firestore";
 export default {
-  props: ["ad", "jobId", "areaId", "floorId"],
+  props: ["ad", "jobId", "areaId", "floorId", "areaName"],
   setup(props) {
     // const deleteItem = async () => {
     //   const collRef = collection(
@@ -68,6 +83,11 @@ export default {
 }
 .item-slot h2 span {
   cursor: pointer;
+}
+.item-router-link {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 .hidden {
   display: none;

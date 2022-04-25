@@ -42,6 +42,7 @@
           :jobId="jobId"
           :areaId="areaId"
           :floorId="floorId"
+          :areaName="areaName"
         />
       </li>
     </ul>
@@ -87,5 +88,12 @@ li {
 }
 .area-data {
   width: 100%;
+  /* display: flex;
+  flex-direction: column;
+  align-items: center; */
+}
+.area-data li {
+  display: flex;
+  justify-content: center;
 }
 </style>
